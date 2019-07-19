@@ -1,5 +1,4 @@
 venv/
-.vscode/
 __pycache__/
 test.db
 
@@ -12,3 +11,6 @@ test.db
 .Trashes
 ehthumbs.db
 Thumbs.db
+frontend/node_modules
+.venv
+.idea

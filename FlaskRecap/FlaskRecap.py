@@ -31,3 +31,15 @@ def greeting_add():
         abort(422)
     greetings[info['lang']] = info['greeting']
     return jsonify({'greetings':greetings})
+
+@app.route('/headers', methods=['GET'])
+def headers():
+    if request.headers.get("Authorization") is None:
+        abort(401)
+    auth_headers = request.headers.get("Authorization")
+    headers_parts = auth_headers.split(" ")
+    if len(headers_parts) != 2:
+        abort(401)
+    if headers_parts[0] != 'Bearer':
+        abort(401)
+    return headers_parts[1]
