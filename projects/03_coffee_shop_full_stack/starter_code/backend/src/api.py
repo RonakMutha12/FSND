@@ -15,7 +15,7 @@ db_drop_and_create_all()
 # ROUTES
 
 
-@app.route('/drinks', methods=['GET'])
+@app.route("/drinks", methods=["GET"])
 def get_drinks():
     drinks_res = Drink.query.all()
     drinks = []
@@ -24,8 +24,8 @@ def get_drinks():
     return jsonify({"success": True, "drinks": drinks})
 
 
-@app.route('/drinks-detail', methods=['GET'])
-@requires_auth(permission='get:drinks-detail')
+@app.route("/drinks-detail", methods=["GET"])
+@requires_auth(permission="get:drinks-detail")
 def get_drink_details(data):
     drinks_res = Drink.query.all()
     drinks = []
@@ -34,8 +34,8 @@ def get_drink_details(data):
     return jsonify({"success": True, "drinks": drinks})
 
 
-@app.route('/drinks', methods=['POST'])
-@requires_auth(permission='post:drinks')
+@app.route("/drinks", methods=["POST"])
+@requires_auth(permission="post:drinks")
 def create_drinks(data):
     data = json.loads(request.data)
     title = data.get("title")
@@ -45,10 +45,10 @@ def create_drinks(data):
     return jsonify({"success": True, "drinks": drink.long()})
 
 
-@app.route('/drinks/<id>', methods=['PATCH'])
-@requires_auth(permission='patch:drinks')
+@app.route("/drinks/<id>", methods=["PATCH"])
+@requires_auth(permission="patch:drinks")
 def update_drinks(data, id):
-    drink_id = request.view_args['id']
+    drink_id = request.view_args["id"]
     drink = Drink.query.filter_by(id=drink_id).one_or_none()
     if drink is None:
         abort(404)
@@ -63,10 +63,10 @@ def update_drinks(data, id):
     return jsonify({"success": True, "drinks": [drink.long()]})
 
 
-@app.route('/drinks/<drink_id>', methods=['DELETE'])
-@requires_auth(permission='delete:drinks')
+@app.route("/drinks/<drink_id>", methods=["DELETE"])
+@requires_auth(permission="delete:drinks")
 def delete_drink(data, drink_id):
-    drink_id = request.view_args['drink_id']
+    drink_id = request.view_args["drink_id"]
     Drink.query.filter_by(id=drink_id).delete()
     return jsonify({"success": True, "delete": drink_id})
 
@@ -76,26 +76,17 @@ def delete_drink(data, drink_id):
 
 @app.errorhandler(422)
 def unprocessable(error):
-    return jsonify({
-        "success": False,
-        "error": 422,
-        "message": "unprocessable"
-    }), 422
+    return jsonify({"success": False, "error": 422, "message": "unprocessable"}), 422
 
 
 @app.errorhandler(404)
 def resource_not_found(error):
-    return jsonify({
-        "success": False,
-        "error": 404,
-        "message": "resource not found"
-    }), 404
+    return (
+        jsonify({"success": False, "error": 404, "message": "resource not found"}),
+        404,
+    )
 
 
 @app.errorhandler(AuthError)
 def auth_error(error):
-    return jsonify({
-        "success": False,
-        "error": 401,
-        "message": "Not Authorized"
-    }), 401
+    return jsonify({"success": False, "error": 401, "message": "Not Authorized"}), 401
