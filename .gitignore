@@ -120,3 +120,8 @@ venv.bak/
 
 # ssl certificates directory
 letsencrypt/*
+
+projects/02_trivia_api/starter/frontend/node_modules/*
+projects/03_coffee_shop_full_stack/starter/frontend/node_modules/*
+
+*.zip
