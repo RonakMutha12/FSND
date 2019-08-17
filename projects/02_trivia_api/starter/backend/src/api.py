@@ -42,7 +42,8 @@ def get_questions(page=1):
     for question in response.items:
         questions.append(question.format())
         categories.append(
-            Category.query.filter_by(id=question.category).one_or_none().type.lower()
+            Category.query.filter_by(
+                id=question.category).one_or_none().type.lower()
         )
         current_category = question.category
     total_questions = Question.query.count()
@@ -126,7 +127,9 @@ def quiz_question():
     else:
         questions = Question.query.all()
     questions = list(
-        filter(lambda question: question.id not in previous_questions, questions)
+        filter(
+            lambda question: question.id not in previous_questions, questions
+        )
     )
     return jsonify(
         {"question": random.choice(questions).format() if questions else None}
@@ -138,13 +141,15 @@ def quiz_question():
 
 @app.errorhandler(400)
 def bad_request(error):
-    return jsonify({"success": False, "error": 400, "message": "Bad Request"}), 400
+    return jsonify({"success": False, "error": 400,
+                    "message": "Bad Request"}), 400
 
 
 @app.errorhandler(404)
 def resource_not_found(error):
     return (
-        jsonify({"success": False, "error": 404, "message": "Resource Not Found"}),
+        jsonify({"success": False, "error": 404,
+                 "message": "Resource Not Found"}),
         404,
     )
 
@@ -152,11 +157,13 @@ def resource_not_found(error):
 @app.errorhandler(422)
 def unprocessable(error):
     return (
-        jsonify({"success": False, "error": 422, "message": "Unprocessable Entity"}),
+        jsonify({"success": False, "error": 422,
+                 "message": "Unprocessable Entity"}),
         422,
     )
 
 
 @app.errorhandler(500)
 def server_error(error):
-    return jsonify({"success": False, "error": 500, "message": "Server Error"}), 500
+    return jsonify({"success": False, "error": 500,
+                    "message": "Server Error"}), 500

@@ -93,7 +93,10 @@ class TriviaTestCase(unittest.TestCase):
             "quiz_category": {"type": "click", "id": 0},
         }
         headers = {"Content-Type": "application/json"}
-        response = self.client.post("/quizzes", data=json.dumps(data), headers=headers)
+        response = self.client.post(
+            "/quizzes",
+            data=json.dumps(data),
+            headers=headers)
         self.assertEqual(response.status_code, 200)
         assert (
             json.loads(response.data).get("question").get("id")
