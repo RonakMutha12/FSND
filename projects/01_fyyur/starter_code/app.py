@@ -56,7 +56,8 @@ def venues():
     venue_query = Venue.query.all()
     data = {}
     for venue in venue_query:
-        upcoming_shows = venue.shows.filter(Show.start_time > current_time).all()
+        upcoming_shows = venue.shows.filter(
+            Show.start_time > current_time).all()
         city_and_state = venue.city + venue.state
         if city_and_state in data:
             data[city_and_state].get("venues").append(
@@ -239,7 +240,8 @@ def edit_artist(artist_id):
         form.website.data = artist_details.get("website")
         form.facebook_link.data = artist_details.get("facebook_link")
         form.seeking_venue.data = artist_details.get("seeking_venue")
-        form.seeking_description.data = artist_details.get("seeking_description")
+        form.seeking_description.data = artist_details.get(
+            "seeking_description")
         form.image_link.data = artist_details.get("image_link")
         return render_template(
             "forms/edit_artist.html", form=form, artist=artist_details
@@ -415,7 +417,8 @@ def server_error(error):
 if not app.debug:
     file_handler = FileHandler("error.log")
     file_handler.setFormatter(
-        Formatter("%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]")
+        Formatter(
+            "%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]")
     )
     app.logger.setLevel(logging.INFO)
     file_handler.setLevel(logging.INFO)

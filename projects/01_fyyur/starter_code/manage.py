@@ -1,3 +1,4 @@
+from models import db
 from flask import Flask
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
@@ -5,7 +6,6 @@ from flask_script import Manager
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///trivia"
 
-from models import db  # <-- this needs to be placed after app is created
 
 migrate = Migrate(app, db)
 
